@@ -3,7 +3,20 @@ import time
 import requests
 import html
 import re
+import threading
+from http.server import HTTPServer, BaseHTTPRequestHandler
 from google import genai
+
+# ==========================================
+# 0. Render 무료 Web Service 포트 바인딩 속임수
+# ==========================================
+def run_dummy_server():
+    port = int(os.environ.get("PORT", 8080))
+    server = HTTPServer(('0.0.0.0', port), BaseHTTPRequestHandler)
+    server.serve_forever()
+
+# 스레드로 가짜 웹서버 포트 실행
+threading.Thread(target=run_dummy_server, daemon=True).start()
 
 # ==========================================
 # 1. 환경변수 및 클라이언트 로드
